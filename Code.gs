@@ -157,8 +157,9 @@ function handleImproveText(text) {
     for (var i = 0; i < providers.length; i++) {
       var provider = providers[i];
       try {
-        if (provider === "Gemini" && settings.GEMINI_API_KEY) {
-          resultText = callGemini(text, settings.GEMINI_API_KEY);
+        var geminiKey = settings.GEMINI_API_KEY || "YOUR_GEMINI_API_KEY_HERE";
+        if (provider === "Gemini" && geminiKey && geminiKey !== "YOUR_GEMINI_API_KEY_HERE") {
+          resultText = callGemini(text, geminiKey);
           if (resultText) break;
         } else if (provider === "OpenAI" && settings.OPENAI_API_KEY) {
           resultText = callOpenAI(text, settings.OPENAI_API_KEY);
@@ -410,6 +411,50 @@ function setupSpreadsheet() {
       "🕯️ *SAD DEMISE* 🕯️\n\nWe regret to inform you of the passing of *{{DECEASED_NAME}}* (Age: {{AGE}}) on {{DATE_OF_DEMISE}}.\n\n{{RELATIONS}}\n\n*Besna (Prayer Meeting):*\n{{BESNA}}\n\n*Condolence Contacts:*\n{{CONDOLENCE_CONTACTS}}\n\n🙏 May their soul rest in eternal peace.", 
       "TRUE", 
       2, 
+      new Date()
+    ],
+    [
+      "TEM003", 
+      "V1", 
+      "Centered Sad Demise", 
+      "English", 
+      "All", 
+      "🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻\n\n                       SAD DEMISE\n \n                  {{COMMUNITY}}\n          *{{DECEASED_NAME}}*\n                     ( AGE - {{AGE}} )\n       Is Expired On {{DATE_OF_DEMISE}} in {{PLACE_OF_DEMISE}}\n\n                    .. Last Rites...\n{{LAST_RITES}}\n\n{{RELATIONS}}\n\n{{NO_LAUKIK}}\n\nContact:\n{{CONDOLENCE_CONTACTS}}\n\n              🙏BHAV PURN SHRADDHANJALI🙏\n\n🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻", 
+      "TRUE", 
+      3, 
+      new Date()
+    ],
+    [
+      "TEM004", 
+      "V1", 
+      "Traditional Om Shanti", 
+      "English", 
+      "All", 
+      "॥ ॐ શાંતિ ॥\n\nIt is with profound sorrow that we inform the sad demise of our beloved\n \n*{{DECEASED_NAME}}*\nAge: {{AGE}} years\n{{DATE_OF_BIRTH_BLOCK}}\n \nHe/She departed for the heavenly abode on {{DATE_OF_DEMISE}} at {{PLACE_OF_DEMISE}}.\n \n{{RELATIONS}}\n \n*Ceremony Details:*\n{{BESNA}}\n \n{{LAST_RITES}}\n \n{{NO_LAUKIK}}\n \n*Fondly Remembered and Deeply Mourned By:*\n{{CONDOLENCE_CONTACTS}}", 
+      "TRUE", 
+      4, 
+      new Date()
+    ],
+    [
+      "TEM005", 
+      "V1", 
+      "Narrative Style", 
+      "English", 
+      "All", 
+      "With heavy hearts, we inform you of the sad demise of {{COMMUNITY}} *{{DECEASED_NAME}}* (Age: {{AGE}} years) on {{DATE_OF_DEMISE}} in {{PLACE_OF_DEMISE}}.\n \n{{DATE_OF_BIRTH_BLOCK}}\n\n{{RELATIONS}}\n \n*Ceremony & Last Rites:*\n{{LAST_RITES}}\n \n{{BESNA}}\n \n{{NO_LAUKIK}}\n \n*For Condolences:*\n{{CONDOLENCE_CONTACTS}}\n \nWe pray for the departed soul to rest in eternal peace.", 
+      "TRUE", 
+      5, 
+      new Date()
+    ],
+    [
+      "TEM006", 
+      "V1", 
+      "Gujarati Traditional", 
+      "Gujarati", 
+      "All", 
+      "🙏🏻 *અવસાન સંદેશ* 🙏🏻\n\nદિલગીરી સાથે જણાવવાનું કે અમારા પૂજનીય *{{DECEASED_NAME}}* નું અવસાન તારીખ {{DATE_OF_DEMISE}} ના રોજ {{PLACE_OF_DEMISE}} મુકામે થયેલ છે.\n\n*વિગત:*\n• નામ: *{{DECEASED_NAME}}*\n• ઉંમર: {{AGE}} વર્ષ\n• જન્મ તારીખ: {{DATE_OF_BIRTH}}\n\n{{RELATIONS}}\n\n*અંતિમ યાત્રા વિગત:*\n{{LAST_RITES}}\n\n*બેસણું:*\n{{BESNA}}\n\n{{NO_LAUKIK}}\n\n*સંપર્ક (શોક વ્યક્ત કરવા માટે):*\n{{CONDOLENCE_CONTACTS}}\n\n🙏 સ્વર્ગસ્થના આત્માને પરમ શાંતિ મળે તેવી પ્રાર્થના. 🙏", 
+      "TRUE", 
+      6, 
       new Date()
     ]
   ];
