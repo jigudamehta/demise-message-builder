@@ -4,7 +4,7 @@
  */
 
 // Connection endpoint (Configure your Google Apps Script URL here or set it in the PWA help panel)
-let GAS_WEBAPP_URL = localStorage.getItem('demise_gas_url') || "https://script.google.com/macros/s/AKfycbxhBesccXyqBEBFfvUfHRKhut25z4064yOWmhFZavE0kFTIe1_ffO-sixp8kOV-VRmM/exec";
+let GAS_WEBAPP_URL = localStorage.getItem('demise_gas_url') || "";
 
 // Default Static Data (used as fallback when offline or if Apps Script endpoint is not yet connected)
 const DEFAULT_CONFIG = {
@@ -38,14 +38,15 @@ const DEFAULT_CONFIG = {
     }
   ],
   relations: [
-    { RelationKey: "SPOUSE", English: "Spouse", MaleLabel: "Wife", FemaleLabel: "Husband", DisplayStyle: "INLINE", DefaultOrder: 1 },
-    { RelationKey: "SON", English: "Son", MaleLabel: "Father of", FemaleLabel: "Mother of", DisplayStyle: "MULTILINE", DefaultOrder: 2 },
-    { RelationKey: "DAUGHTER", English: "Daughter", MaleLabel: "Father of", FemaleLabel: "Mother of", DisplayStyle: "MULTILINE", DefaultOrder: 3 },
-    { RelationKey: "DAUGHTER_IN_LAW", English: "Daughter-in-Law", MaleLabel: "Father-in-Law of", FemaleLabel: "Mother-in-Law of", DisplayStyle: "INLINE", DefaultOrder: 4 },
-    { RelationKey: "SON_IN_LAW", English: "Son-in-Law", MaleLabel: "Father-in-Law of", FemaleLabel: "Mother-in-Law of", DisplayStyle: "INLINE", DefaultOrder: 5 },
-    { RelationKey: "GRANDCHILDREN", English: "Grandchildren", MaleLabel: "Grandfather of", FemaleLabel: "Grandmother of", DisplayStyle: "BULLETS", DefaultOrder: 6 },
-    { RelationKey: "BROTHER", English: "Brother", MaleLabel: "Brother of", FemaleLabel: "Sister-in-Law of", DisplayStyle: "INLINE", DefaultOrder: 7 },
-    { RelationKey: "SISTER", English: "Sister", MaleLabel: "Brother-in-Law of", FemaleLabel: "Sister of", DisplayStyle: "INLINE", DefaultOrder: 8 }
+    { RelationKey: "SPOUSE", English: "Spouse", ChipLabel: "Spouse (જીવનસાથી)", MaleLabel: "H/o", FemaleLabel: "W/o", DisplayStyle: "INLINE", DefaultOrder: 1 },
+    { RelationKey: "PARENTS", English: "Parents", ChipLabel: "Parents (પિતા-માતા)", MaleLabel: "S/o", FemaleLabel: "D/o", DisplayStyle: "INLINE", DefaultOrder: 2 },
+    { RelationKey: "PARENTS_IN_LAW", English: "Parents-in-Law", ChipLabel: "Parents-in-Law (સાસુ-સસરા)", MaleLabel: "Sil/o", FemaleLabel: "Dil/o", DisplayStyle: "INLINE", DefaultOrder: 3 },
+    { RelationKey: "CHILDREN", English: "Children", ChipLabel: "Children (પુત્ર/પુત્રી)", MaleLabel: "F/o", FemaleLabel: "M/o", DisplayStyle: "MULTILINE", DefaultOrder: 4 },
+    { RelationKey: "CHILDREN_IN_LAW", English: "Children-in-Law", ChipLabel: "Children-in-Law (જમાઈ/પુત્રવધૂ)", MaleLabel: "Fil/o", FemaleLabel: "Mil/o", DisplayStyle: "INLINE", DefaultOrder: 5 },
+    { RelationKey: "GRANDCHILDREN", English: "Grandchildren", ChipLabel: "Grandchildren (પૌત્ર/પૌત્રી)", MaleLabel: "G/f", FemaleLabel: "G/m", DisplayStyle: "BULLETS", DefaultOrder: 6 },
+    { RelationKey: "SIBLINGS", English: "Siblings", ChipLabel: "Siblings (ભાઈ/બહેન)", MaleLabel: "B/o", FemaleLabel: "S/o", DisplayStyle: "INLINE", DefaultOrder: 7 },
+    { RelationKey: "SISTER_IN_LAW", English: "Sister-in-Law", ChipLabel: "Sister-in-Law (ભાભી/સાળી)", MaleLabel: "Sil/o", FemaleLabel: "Sil/o", DisplayStyle: "INLINE", DefaultOrder: 8 },
+    { RelationKey: "BROTHER_IN_LAW", English: "Brother-in-Law", ChipLabel: "Brother-in-Law (બનેવી/સાળો)", MaleLabel: "Bil/o", FemaleLabel: "Bil/o", DisplayStyle: "INLINE", DefaultOrder: 9 }
   ],
   communities: [
     { CommunityID: "COM001", CommunityName: "Palanpuri Samaj", DisplayOrder: 1, Active: "TRUE" },
@@ -476,10 +477,11 @@ function setupRelationSuggestions() {
     chip.type = "button";
     chip.className = "chip";
     
-    // Choose appropriate label based on deceased gender
-    const heading = (gender === "Male" ? rel.MaleLabel : rel.FemaleLabel) || rel.English;
-    chip.textContent = heading;
+    // Choose appropriate label for the suggestion chip (prefer ChipLabel with Gujarati)
+    const chipText = rel.ChipLabel || rel.English;
+    chip.textContent = chipText;
     
+    const heading = (gender === "Male" ? rel.MaleLabel : rel.FemaleLabel) || rel.English;
     chip.addEventListener("click", () => {
       // Add standard relation block
       addRelationRow(heading, "", rel.DisplayStyle || "AUTO");
@@ -1163,6 +1165,7 @@ function initSharingActions() {
   // WhatsApp Share
   btnShare.addEventListener("click", () => {
     const rawText = document.getElementById("whatsapp-preview-text").getAttribute("data-raw-text");
+    const shareTextWithFooter = rawText + "\n\n🕊️ Announcement generated via Demise Message Builder. Click below to create yours:\nhttps://jigudamehta.github.io/demise-message-builder/";
     
     // Check if image is uploaded and browser supports Web Share File API
     if (appState.draft.photoBase64 && navigator.share && navigator.canShare) {
@@ -1184,7 +1187,7 @@ function initSharingActions() {
         const shareData = {
           files: [file],
           title: "Demise Announcement",
-          text: rawText
+          text: shareTextWithFooter
         };
         
         if (navigator.canShare(shareData)) {
@@ -1193,7 +1196,7 @@ function initSharingActions() {
             .catch(err => {
               if (err.name !== "AbortError") {
                 console.error("Web Share failed, falling back to URL link: ", err);
-                openWhatsAppUrlFallback(rawText);
+                openWhatsAppUrlFallback(shareTextWithFooter);
               }
             });
           return; // Stop execution
@@ -1204,7 +1207,7 @@ function initSharingActions() {
     }
     
     // Fallback: Share Text via direct WhatsApp API
-    openWhatsAppUrlFallback(rawText);
+    openWhatsAppUrlFallback(shareTextWithFooter);
   });
   
   function openWhatsAppUrlFallback(text) {
