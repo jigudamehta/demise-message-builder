@@ -1,0 +1,28 @@
+{
+  "name": "Demise Message Builder",
+  "short_name": "Demise Builder",
+  "description": "Progressive Web App to build and format demise announcements and condolence messages.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F5F1EA",
+  "theme_color": "#5B4636",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "icons/maskable-icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ]
+}

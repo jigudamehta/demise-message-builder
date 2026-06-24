@@ -1,0 +1,15 @@
+{
+  "name": "demise-message-builder-pwa",
+  "version": "1.0.0",
+  "description": "Progressive Web App to build demise announcements and condolence messages.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8080",
+    "dev": "npx http-server -p 8080"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "author": "Jigar Pradip Mehta",
+  "license": "ISC"
+}

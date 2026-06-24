@@ -1,0 +1,717 @@
+PROJECT NAME
+
+Demise Message Builder PWA
+
+OBJECTIVE
+
+Build a production-ready Progressive Web App (PWA) for creating professional demise announcements and condolence messages commonly used in Banaskantha, Palanpuri and Gujarati community groups.
+
+The application must be mobile-first, responsive, installable as a PWA, work on all screen sizes, and generate WhatsApp-ready messages with proper formatting.
+
+The application is NOT a generic form builder.
+
+It is a highly optimized demise-message drafting platform.
+
+====================================================
+
+TECH STACK
+
+Frontend:
+
+* HTML5
+* CSS3
+* Vanilla JavaScript (or lightweight framework if needed)
+* Responsive Design
+* Mobile First
+
+Backend:
+
+* Google Apps Script Web App
+
+Database:
+
+* Google Sheets
+
+Storage:
+
+* Local Browser Storage for Drafts
+
+PWA:
+
+* manifest.json
+* service-worker.js
+* installable
+* offline capable for drafts
+
+====================================================
+
+ARCHITECTURE
+
+PWA
+↓
+Google Apps Script API
+↓
+Google Sheets
+
+No Login System
+
+No User Roles
+
+No Authentication
+
+No Admin Panel inside App
+
+Google Sheet itself acts as CMS and configuration backend.
+
+====================================================
+
+SETTINGS SHEET
+
+Create a Settings tab that stores:
+
+GAS_WEBAPP_URL
+APP_NAME
+APP_VERSION
+DEFAULT_LANGUAGE
+DEFAULT_TEMPLATE
+ENABLE_AI
+OPENAI_API_KEY
+GEMINI_API_KEY
+OPENROUTER_API_KEY
+AI_PROVIDER_PRIORITY
+BRANDING_NAME
+BRANDING_PHONE
+WHATSAPP_SHARE_ENABLED
+
+Example:
+
+AI_PROVIDER_PRIORITY
+
+Gemini,OpenAI,OpenRouter
+
+If Gemini fails:
+Use OpenAI
+
+If OpenAI fails:
+Use OpenRouter
+
+If all fail:
+Skip AI Improvement gracefully.
+
+====================================================
+
+GOOGLE SHEET STRUCTURE
+
+1. Settings
+
+2. Templates
+
+Columns:
+
+TemplateID
+TemplateName
+Language
+Community
+TemplateBody
+IsActive
+DisplayOrder
+
+====================================================
+
+3. RelationMaster
+
+Columns:
+
+RelationKey
+English
+Gujarati
+GUJlish
+Hindi
+Hinglish
+MaleLabel
+FemaleLabel
+DefaultOrder
+DisplayStyle
+
+DisplayStyle values:
+
+INLINE
+MULTILINE
+BULLETS
+AUTO
+
+====================================================
+
+4. CommunityMaster
+
+Columns:
+
+CommunityID
+CommunityName
+DisplayOrder
+Active
+
+Examples:
+
+Palanpuri Samaj
+Dhanera Samaj
+Tharad Samaj
+Gadh Samaj
+12 Gam Samaj
+Khimat Samaj
+Deesa Samaj
+Bhabhar Samaj
+Diyodar Samaj
+Custom
+
+Admin can add new communities through Sheet without code changes.
+
+====================================================
+
+5. LanguageMaster
+
+Translation table.
+
+====================================================
+
+UI THEME
+
+Professional and respectful.
+
+Colors:
+
+Primary:
+#5B4636
+
+Secondary:
+#F5F1EA
+
+Accent:
+#8A6A4A
+
+Avoid:
+
+* Bright Red
+* Neon Colors
+* Flashy Animations
+
+Typography:
+
+Clean
+Readable
+Senior Citizen Friendly
+
+====================================================
+
+RESPONSIVE DESIGN
+
+Mobile:
+Wizard Layout
+
+Desktop:
+Split Layout
+
+Left:
+Data Entry
+
+Right:
+Live WhatsApp Preview
+
+Preview updates instantly.
+
+====================================================
+
+MODULE 1
+
+COMMUNITY SELECTION
+
+Dropdown from CommunityMaster.
+
+If Custom selected:
+
+Show:
+
+Custom Community Name
+
+====================================================
+
+MODULE 2
+
+DECEASED DETAILS
+
+Fields:
+
+Full Name
+Gender
+Age
+Date of Demise
+Place of Demise
+Date of Birth
+Additional Note
+
+Photo Upload
+
+Features:
+
+Upload Image
+Remove Image
+Preview Image
+
+====================================================
+
+MODULE 3
+
+SMART RELATION ENGINE
+
+When Gender = Male
+
+Suggest:
+
+Wife
+Son
+Daughter
+Son In Law
+Daughter In Law
+Grandchildren
+Brother
+Sister
+Parents
+In Laws
+
+When Gender = Female
+
+Suggest:
+
+Husband
+Son
+Daughter
+Son In Law
+Daughter In Law
+Grandchildren
+Brother
+Sister
+Parents
+In Laws
+
+====================================================
+
+RELATION BUILDER
+
+Unlimited Relations.
+
+Each relation contains:
+
+Relation Heading
+
+Relation Names
+
+Display Style
+
+Display Style options:
+
+Auto
+Inline
+Multiline
+Bullets
+
+Buttons:
+
+Move Up
+Move Down
+Delete
+
+====================================================
+
+RELATION DISPLAY EXAMPLES
+
+Inline
+
+Father of
+Ritu, Payal & Gini
+
+Multiline
+
+Father of
+
+Ritu
+Payal
+Gini
+
+Bullets
+
+Father of
+
+• Ritu
+• Payal
+• Gini
+
+====================================================
+
+CUSTOM RELATIONS
+
+User may create unlimited custom relations.
+
+Examples:
+
+Trustee
+Friend
+Relative
+Uncle
+Aunt
+Guru
+Custom
+
+====================================================
+
+MODULE 4
+
+CEREMONY DETAILS
+
+Last Rites
+
+Address
+Date
+Time
+
+Besna
+
+Address
+Date
+Time
+
+Google Maps Link
+
+No Laukik Vyavahar
+
+Toggle ON/OFF
+
+====================================================
+
+MODULE 5
+
+CONDOLENCE CONTACTS
+
+Unlimited Contacts.
+
+Fields:
+
+Name
+Relation
+Mobile
+
+Features:
+
+Move Up
+Move Down
+Delete
+
+Toggle:
+
+Show Relation
+Hide Relation
+
+====================================================
+
+MODULE 6
+
+CUSTOM SECTIONS
+
+User can create unlimited sections.
+
+Each section:
+
+Title
+Content
+
+Examples:
+
+Prayer Meeting
+Family Message
+Special Instructions
+Live Stream Link
+
+====================================================
+
+LANGUAGE SYSTEM
+
+Supported Languages:
+
+English
+Gujarati
+GUJlish
+Hindi
+Hinglish
+
+Switching language should translate labels from LanguageMaster.
+
+====================================================
+
+====================================================
+
+TEMPLATE VERSIONING
+
+Templates must support version control.
+
+Additional Columns in Templates Sheet:
+
+TemplateID
+TemplateVersion
+TemplateName
+Language
+Community
+TemplateBody
+IsActive
+DisplayOrder
+CreatedDate
+
+Example:
+
+DEM001 | V1 | Traditional
+DEM001 | V2 | Traditional
+DEM001 | V3 | Traditional
+
+Only one version can be active at a time.
+
+====================================================
+
+DRAFT SNAPSHOT STORAGE
+
+When a draft is created:
+
+Store:
+
+TemplateID
+TemplateVersion
+
+inside the draft.
+
+This ensures that if the template changes later, old drafts still generate correctly using the version they were originally created with.
+
+====================================================
+
+PREVIEW VERSION INFO
+
+Show:
+
+Template:
+Traditional
+
+Version:
+V3
+
+at preview screen.
+
+====================================================
+
+ROLLBACK SUPPORT
+
+Admin can activate any previous version from Google Sheet.
+
+Example:
+
+Traditional V4 has mistake
+
+
+TEMPLATE ENGINE
+
+Templates loaded from Google Sheet.
+
+User CANNOT edit templates.
+
+User CAN:
+
+Select Template
+
+Examples:
+
+Traditional
+Modern
+Detailed
+Short
+Palanpuri Style
+
+Admin manages templates through Google Sheet only.
+
+====================================================
+
+TEMPLATE VARIABLES
+
+Support placeholders:
+
+{{COMMUNITY}}
+
+{{DECEASED_NAME}}
+
+{{AGE}}
+
+{{DATE_OF_DEMISE}}
+
+{{PLACE_OF_DEMISE}}
+
+{{RELATIONS}}
+
+{{LAST_RITES}}
+
+{{BESNA}}
+
+{{CUSTOM_SECTIONS}}
+
+{{CONDOLENCE_CONTACTS}}
+
+{{NO_LAUKIK}}
+
+====================================================
+
+AI IMPROVE BUTTON
+
+Optional.
+
+Button:
+
+Improve Formatting
+
+Function:
+
+Improve grammar
+Improve spacing
+Improve readability
+Format lists
+
+Must NEVER:
+
+Invent facts
+Add relatives
+Modify names
+Modify dates
+Modify numbers
+
+Use provider priority from Settings Sheet.
+
+====================================================
+
+WHATSAPP OUTPUT
+
+Generate professional WhatsApp formatting.
+
+Use limited emojis only:
+
+🙏
+📍
+📞
+🕯️
+
+No excessive decoration.
+
+====================================================
+
+WHATSAPP ACTIONS
+
+Buttons:
+
+Copy Message
+
+Share To WhatsApp
+
+Download TXT
+
+====================================================
+
+IMAGE + CAPTION MODE
+
+If image uploaded:
+
+Share image with generated message as WhatsApp caption.
+
+====================================================
+
+LIVE PREVIEW
+
+Preview must look similar to WhatsApp message.
+
+Real-time updates.
+
+====================================================
+
+AUTO SAVE
+
+Save Draft automatically in browser localStorage.
+
+Restore draft on reopening.
+
+Prompt:
+
+Resume Previous Draft?
+
+====================================================
+
+VALIDATION
+
+Check:
+
+Required fields
+Empty relations
+Invalid contact numbers
+
+Show warnings before generation.
+
+====================================================
+
+PWA REQUIREMENTS
+
+Installable
+
+Offline Draft Support
+
+Responsive
+
+Fast Loading
+
+App Icon Support
+
+Manifest
+
+Service Worker
+
+====================================================
+
+BRANDING
+
+Fixed footer everywhere:
+
+Designed by Jigar Pradip Mehta - 9898393487
+
+====================================================
+
+CODE GENERATION REQUIREMENT
+
+Generate COMPLETE project.
+
+Include:
+
+index.html
+
+styles.css
+
+app.js
+
+manifest.json
+
+service-worker.js
+
+Google Apps Script backend
+
+Code.gs
+
+Sheet schema setup
+
+API functions
+
+Configuration instructions
+
+Deployment instructions
+
+No placeholders.
+
+No pseudo code.
+
+Generate production-ready working code.

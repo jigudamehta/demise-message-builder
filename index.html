@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demise Message Builder</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A professional tool to draft, format, and share demise announcements and condolence messages for community groups. Supports offline drafts and instant WhatsApp sharing.">
+  <meta name="theme-color" content="#5B4636">
+  
+  <!-- PWA Manifest & App Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <div class="header-brand">
+      <h1 id="app-title">🕯️ Demise Message Builder</h1>
+      <p id="app-subtitle">Create respectful, formatted announcements</p>
+    </div>
+    <div class="header-actions">
+      <!-- Senior Font Size Adjusters -->
+      <button class="btn-icon" id="btn-font-dec" title="Decrease Text Size" aria-label="Decrease Font Size">A-</button>
+      <button class="btn-icon" id="btn-font-inc" title="Increase Text Size" aria-label="Increase Font Size">A+</button>
+      <!-- Saved Drafts History -->
+      <button class="btn-icon" id="btn-drafts-history" title="Manage Saved Drafts" aria-label="Drafts History">📂</button>
+    </div>
+  </header>
+
+  <!-- Main App Interface -->
+  <main class="app-container">
+    
+    <!-- Left Pane: Wizard Form Entry -->
+    <section class="form-pane" aria-label="Data Entry Form">
+      <!-- Step Navigation Tabs (Wizard style) -->
+      <nav class="wizard-steps" aria-label="Form Steps">
+        <div class="step-tab active" data-step="1" id="tab-step-1">1. Deceased</div>
+        <div class="step-tab" data-step="2" id="tab-step-2">2. Relations</div>
+        <div class="step-tab" data-step="3" id="tab-step-3">3. Ceremonies</div>
+        <div class="step-tab" data-step="4" id="tab-step-4">4. Contacts & Custom</div>
+      </nav>
+
+      <form id="demise-form" onsubmit="event.preventDefault();">
+        
+        <!-- STEP 1: Deceased Details -->
+        <div class="step-panel active" id="panel-step-1">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">🕯️ Deceased Personal Details</h2>
+            </div>
+            
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="deceased-name">Full Name of Deceased *</label>
+                <input type="text" id="deceased-name" placeholder="e.g. Late Laljibhai Karsanbhai Mehta" required>
+              </div>
+              
+              <div class="form-group">
+                <label>Gender *</label>
+                <div class="gender-selector">
+                  <div class="gender-option">
+                    <input type="radio" id="gender-male" name="gender" value="Male" checked>
+                    <label for="gender-male" class="gender-label">Male</label>
+                  </div>
+                  <div class="gender-option">
+                    <input type="radio" id="gender-female" name="gender" value="Female">
+                    <label for="gender-female" class="gender-label">Female</label>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="deceased-age">Age (Years) *</label>
+                <input type="text" id="deceased-age" placeholder="e.g. 78" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="date-of-demise">Date of Demise *</label>
+                <input type="date" id="date-of-demise" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="place-of-demise">Place of Demise *</label>
+                <input type="text" id="place-of-demise" placeholder="e.g. Palanpur" required>
+              </div>
+
+              <div class="form-group">
+                <label for="date-of-birth">Date of Birth (Optional)</label>
+                <input type="date" id="date-of-birth">
+              </div>
+
+              <div class="form-group">
+                <label for="community-select">Samaj / Community *</label>
+                <select id="community-select">
+                  <option value="Custom">Custom / Enter manually...</option>
+                </select>
+              </div>
+              
+              <div class="form-group full-width" id="custom-community-group" style="display: none;">
+                <label for="custom-community">Custom Community Name</label>
+                <input type="text" id="custom-community" placeholder="e.g. Palanpuri Samaj">
+              </div>
+
+              <div class="form-group full-width">
+                <label>Photo Upload</label>
+                <div class="photo-uploader">
+                  <div class="photo-preview-container" id="photo-preview-wrapper">
+                    <span class="photo-placeholder-icon" id="photo-placeholder">👤</span>
+                    <img id="photo-display" style="display: none;" alt="Deceased Photo">
+                  </div>
+                  <div class="upload-actions">
+                    <div class="file-input-wrapper">
+                      <button type="button" class="btn btn-secondary btn-sm">Choose Photo</button>
+                      <input type="file" id="photo-input" accept="image/*">
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm" id="btn-remove-photo" style="display: none;">Remove</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group full-width">
+                <label for="additional-notes">Additional Notes / Message Prefix (Optional)</label>
+                <textarea id="additional-notes" placeholder="e.g. Passed away peacefully surrounded by family."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Relations Build Engine -->
+        <div class="step-panel" id="panel-step-2">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">👨‍👩‍👧‍👦 Family Relationships</h2>
+              <span class="help-text" style="font-size: 0.8rem; color: var(--color-text-muted);">Add family members</span>
+            </div>
+            
+            <!-- Quick Suggestion Chips -->
+            <label>Quick Suggestions (Click to Add):</label>
+            <div class="chips-container" id="relation-suggestion-chips">
+              <!-- Dynamically populated chips -->
+            </div>
+            
+            <div style="margin: 1.2rem 0; text-align: right;">
+              <button type="button" class="btn btn-primary btn-sm" id="btn-add-custom-relation">+ Add Custom Relation</button>
+            </div>
+            
+            <!-- Relations List Container -->
+            <div class="relation-list" id="relations-container">
+              <!-- Dynamically built relation blocks go here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Ceremonies & Special Notes -->
+        <div class="step-panel" id="panel-step-3">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">🕯️ Ceremony Details</h2>
+            </div>
+            
+            <div class="form-grid">
+              <!-- Besna -->
+              <div class="form-group full-width">
+                <label style="font-size: 1rem; color: var(--color-primary); border-bottom: 1px solid var(--color-border); padding-bottom: 4px;">Besna (Prayer Meeting)</label>
+              </div>
+              <div class="form-group full-width">
+                <label for="besna-address">Besna Address</label>
+                <textarea id="besna-address" placeholder="e.g. Community Hall, Town Hall Road, Palanpur"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="besna-date">Besna Date</label>
+                <input type="text" id="besna-date" placeholder="e.g. 26th June 2026, Friday">
+              </div>
+              <div class="form-group">
+                <label for="besna-time">Besna Time</label>
+                <input type="text" id="besna-time" placeholder="e.g. 2:00 PM to 4:00 PM">
+              </div>
+
+              <!-- Last Rites -->
+              <div class="form-group full-width" style="margin-top: 1rem;">
+                <label style="font-size: 1rem; color: var(--color-primary); border-bottom: 1px solid var(--color-border); padding-bottom: 4px;">Last Rites (Funeral)</label>
+              </div>
+              <div class="form-group full-width">
+                <label for="rites-address">Funeral Place / Crematorium Address</label>
+                <textarea id="rites-address" placeholder="e.g. Muktidham Crematorium, Palanpur"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="rites-date">Funeral Date</label>
+                <input type="text" id="rites-date" placeholder="e.g. 25th June 2026, Thursday">
+              </div>
+              <div class="form-group">
+                <label for="rites-time">Funeral Time</label>
+                <input type="text" id="rites-time" placeholder="e.g. 9:00 AM">
+              </div>
+
+              <!-- Google Map Link -->
+              <div class="form-group full-width" style="margin-top: 1rem;">
+                <label for="map-link">Google Maps Location Link (Optional)</label>
+                <input type="text" id="map-link" placeholder="e.g. https://maps.app.goo.gl/...">
+              </div>
+              
+              <!-- Laukik Vyavahar Toggle -->
+              <div class="form-group full-width switch-wrapper" style="margin-top: 1rem;">
+                <div>
+                  <label for="laukik-toggle" style="font-size: 0.95rem;">Simple Rites / No Laukik Vyavahar</label>
+                  <p style="font-size: 0.75rem; color: var(--color-text-muted);">Toggles notice that custom formal visits are skipped</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="laukik-toggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Condolence Contacts & Custom Sections -->
+        <div class="step-panel" id="panel-step-4">
+          <!-- Contacts Card -->
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+              <h2 class="card-title">📞 Condolence Contacts</h2>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-add-contact">+ Add Contact</button>
+            </div>
+            
+            <div class="contacts-list" id="contacts-container">
+              <!-- Dynamically built contact items -->
+            </div>
+          </div>
+
+          <!-- Custom Sections Card -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">➕ Additional Sections</h2>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-add-section">+ Add Section</button>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 1rem;">Add streaming links, family request details, or specific notes.</p>
+            
+            <div class="sections-list" id="sections-container">
+              <!-- Dynamically built custom sections -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Wizard Navigation Footer -->
+        <div class="wizard-footer">
+          <button type="button" class="btn btn-secondary" id="btn-prev" style="visibility: hidden;">&larr; Back</button>
+          <button type="button" class="btn btn-primary" id="btn-next">Next &rarr;</button>
+        </div>
+      </form>
+    </section>
+    
+    <!-- Right Pane: WhatsApp Live Preview & Share Actions -->
+    <section class="preview-pane" aria-label="WhatsApp Live Preview">
+      
+      <!-- Template Selector -->
+      <div class="card" style="padding: 1rem;">
+        <div class="form-group">
+          <label for="template-select">Select Message Template</label>
+          <select id="template-select">
+            <!-- Dynamically loaded templates -->
+          </select>
+        </div>
+      </div>
+      
+      <!-- WhatsApp Preview Container -->
+      <div class="whatsapp-box">
+        <div class="wa-header">
+          <div class="wa-avatar">👤</div>
+          <div class="wa-details">
+            <h4 id="preview-header-title">Message Preview</h4>
+            <p>Updates instantly</p>
+          </div>
+        </div>
+        <div class="wa-chat-area">
+          <div class="wa-bubble">
+            <!-- Image section inside bubble -->
+            <div class="wa-bubble-image-container" id="wa-bubble-image-wrapper" style="display: none;">
+              <img id="wa-bubble-image" alt="Deceased Portrait">
+            </div>
+            <!-- Message text formatted for WhatsApp -->
+            <div class="wa-text-content" id="whatsapp-preview-text">🕯️ Please fill in the details on the left to generate the demise announcement...</div>
+            <span class="wa-time" id="preview-time">10:00 AM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Template Version Info Block -->
+      <div style="font-size: 0.75rem; color: var(--color-text-muted); text-align: right; margin-top: -8px; padding-right: 4px;">
+        Template: <span id="info-template-name">Traditional</span> (<span id="info-template-version">V1</span>)
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="preview-actions">
+        <!-- AI Helper Card -->
+        <div class="card ai-card" id="ai-card-wrapper" style="display: none;">
+          <div class="ai-info">
+            <label style="font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">✨ AI Spacing & Formatting Optimizer</label>
+            <span>Will adjust layout structure securely. No facts modified.</span>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="btn-ai-improve">
+            <span id="ai-btn-text">Optimize</span>
+          </button>
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="btn btn-secondary" id="btn-copy">📋 Copy Announcement</button>
+          <button type="button" class="btn btn-primary" id="btn-share-whatsapp">💬 Share to WhatsApp</button>
+        </div>
+        <div class="action-row">
+          <button type="button" class="btn btn-secondary" id="btn-download-txt">📥 Download TXT File</button>
+          <button type="button" class="btn btn-secondary" id="btn-save-custom-draft">💾 Save Manual Draft</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- COLLAPSIBLE SETUP & CONNECTION HELP PANEL -->
+  <section class="app-container" style="display: block; margin-top: 1rem; padding-top: 0;">
+    <details class="card help-box" style="cursor: pointer;">
+      <summary style="font-weight: 700; color: var(--color-primary); outline: none;">🔗 Developer & Spreadsheet Connection Setup</summary>
+      <div style="margin-top: 0.8rem; line-height: 1.5; font-size: 0.9rem; cursor: default;">
+        <p>This Progressive Web App fetches templates, relationship defaults, and settings directly from your private Google Spreadsheet. It also uses Google Apps Script to proxy AI queries securely without exposing API keys.</p>
+        <ol style="margin-left: 1.5rem; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 6px;">
+          <li>Create a Google Spreadsheet.</li>
+          <li>Click <strong>Extensions &rarr; Apps Script</strong>.</li>
+          <li>Paste the code from <a href="file:///e:/Antigraveti/Demise%20message/Code.gs" style="color: var(--color-accent); font-weight: 600;">Code.gs</a> into the editor.</li>
+          <li>Run the <code>setupSpreadsheet</code> function once to create the worksheets automatically.</li>
+          <li>Click <strong>Deploy &rarr; New Deployment</strong>, set access to "Anyone", and copy the Web App URL.</li>
+          <li>Paste the Web App URL inside your PWA config in <code>app.js</code> or configure it directly in settings.</li>
+        </ol>
+      </div>
+    </details>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    Designed by Jigar Pradip Mehta - 9898393487
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Modal: Image Cropper -->
+  <div class="modal-overlay" id="modal-cropper">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Crop Deceased Photo</h3>
+        <button type="button" style="background: none; border: none; color: white; font-size: 1.25rem; cursor: pointer;" id="btn-close-cropper">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="cropper-container">
+          <img id="cropper-target-image" class="cropper-image" alt="Original Upload">
+          <div class="cropper-overlay"></div>
+          <div class="cropper-mask-circle"></div>
+        </div>
+        <div class="cropper-controls">
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-crop-zoom-in" title="Zoom In">Zoom +</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-crop-zoom-out" title="Zoom Out">Zoom -</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-crop-rotate" title="Rotate">Rotate ↻</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-crop-cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btn-crop-save">Apply Crop</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Resume Previous Draft Prompt -->
+  <div class="modal-overlay" id="modal-resume-draft">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Unsaved Draft Detected</h3>
+      </div>
+      <div class="modal-body">
+        <p>Would you like to resume editing your previous demise message draft?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-resume-discard">Start Fresh</button>
+        <button type="button" class="btn btn-primary" id="btn-resume-confirm">Yes, Resume Draft</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Draft History / Multi-Draft Selector -->
+  <div class="modal-overlay" id="modal-drafts-list">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Saved Drafts History</h3>
+        <button type="button" style="background: none; border: none; color: white; font-size: 1.25rem; cursor: pointer;" id="btn-close-drafts-list">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 1rem;">
+        <div id="drafts-history-list" style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- Dynamically populated draft rows -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-close-drafts-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Toast Container -->
+  <div class="toast" id="toast-message">Message Copied!</div>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
