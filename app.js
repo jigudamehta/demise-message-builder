@@ -4,7 +4,7 @@
  */
 
 // Connection endpoint (Configure your Google Apps Script URL here or set it in the PWA help panel)
-let GAS_WEBAPP_URL = localStorage.getItem('demise_gas_url') || "";
+let GAS_WEBAPP_URL = localStorage.getItem('demise_gas_url') || "https://script.google.com/macros/s/AKfycbxhBesccXyqBEBFfvUfHRKhut25z4064yOWmhFZavE0kFTIe1_ffO-sixp8kOV-VRmM/exec";
 
 // Default Static Data (used as fallback when offline or if Apps Script endpoint is not yet connected)
 const DEFAULT_CONFIG = {
