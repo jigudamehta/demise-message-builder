@@ -4,7 +4,7 @@
  */
 
 // Connection endpoint (Configure your Google Apps Script URL here or set it in the PWA help panel)
-let GAS_WEBAPP_URL = localStorage.getItem('demise_gas_url') || "";
+let GAS_WEBAPP_URL = localStorage.getItem('demise_gas_url') || "https://script.google.com/macros/s/AKfycbxhBesccXyqBEBFfvUfHRKhut25z4064yOWmhFZavE0kFTIe1_ffO-sixp8kOV-VRmM/exec";
 
 // Default Static Data (used as fallback when offline or if Apps Script endpoint is not yet connected)
 const DEFAULT_CONFIG = {
@@ -35,6 +35,42 @@ const DEFAULT_CONFIG = {
       Community: "All",
       IsActive: "TRUE",
       TemplateBody: `🕯️ *SAD DEMISE* 🕯️\n\nWe regret to inform you of the passing of *{{DECEASED_NAME}}* (Age: {{AGE}}) on {{DATE_OF_DEMISE}}.\n\n{{RELATIONS}}\n\n{{BESNA}}\n\n*Condolence Contacts:*\n{{CONDOLENCE_CONTACTS}}\n\n🙏 May their soul rest in eternal peace.`
+    },
+    {
+      TemplateID: "TEM003",
+      TemplateVersion: "V1",
+      TemplateName: "Centered Sad Demise",
+      Language: "English",
+      Community: "All",
+      IsActive: "TRUE",
+      TemplateBody: `🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻\n\n                       SAD DEMISE\n \n                  {{COMMUNITY}}\n          *{{DECEASED_NAME}}*\n                     ( AGE - {{AGE}} )\n       Is Expired On {{DATE_OF_DEMISE}} in {{PLACE_OF_DEMISE}}\n\n                    .. Last Rites...\n{{LAST_RITES}}\n\n{{RELATIONS}}\n\n{{NO_LAUKIK}}\n\nContact:\n{{CONDOLENCE_CONTACTS}}\n\n              🙏BHAV PURN SHRADDHANJALI🙏\n\n🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻🙏🏻`
+    },
+    {
+      TemplateID: "TEM004",
+      TemplateVersion: "V1",
+      TemplateName: "Traditional Om Shanti",
+      Language: "English",
+      Community: "All",
+      IsActive: "TRUE",
+      TemplateBody: `॥ ॐ શાંતિ ॥\n\nIt is with profound sorrow that we inform the sad demise of our beloved\n \n*{{DECEASED_NAME}}*\nAge: {{AGE}} years\n{{DATE_OF_BIRTH_BLOCK}}\n \nHe/She departed for the heavenly abode on {{DATE_OF_DEMISE}} at {{PLACE_OF_DEMISE}}.\n \n{{RELATIONS}}\n \n*Ceremony Details:*\n{{BESNA}}\n \n{{LAST_RITES}}\n \n{{NO_LAUKIK}}\n \n*Fondly Remembered and Deeply Mourned By:*\n{{CONDOLENCE_CONTACTS}}`
+    },
+    {
+      TemplateID: "TEM005",
+      TemplateVersion: "V1",
+      TemplateName: "Narrative Style",
+      Language: "English",
+      Community: "All",
+      IsActive: "TRUE",
+      TemplateBody: `With heavy hearts, we inform you of the sad demise of {{COMMUNITY}} *{{DECEASED_NAME}}* (Age: {{AGE}} years) on {{DATE_OF_DEMISE}} in {{PLACE_OF_DEMISE}}.\n \n{{DATE_OF_BIRTH_BLOCK}}\n\n{{RELATIONS}}\n \n*Ceremony & Last Rites:*\n{{LAST_RITES}}\n \n{{BESNA}}\n \n{{NO_LAUKIK}}\n \n*For Condolences:*\n{{CONDOLENCE_CONTACTS}}\n \nWe pray for the departed soul to rest in eternal peace.`
+    },
+    {
+      TemplateID: "TEM006",
+      TemplateVersion: "V1",
+      TemplateName: "Gujarati Traditional",
+      Language: "Gujarati",
+      Community: "All",
+      IsActive: "TRUE",
+      TemplateBody: `🙏🏻 *અવસાન સંદેશ* 🙏🏻\n\nદિલગીરી સાથે જણાવવાનું કે અમારા પૂજનીય *{{DECEASED_NAME}}* નું અવસાન તારીખ {{DATE_OF_DEMISE}} ના રોજ {{PLACE_OF_DEMISE}} મુકામે થયેલ છે.\n\n*વિગત:*\n• નામ: *{{DECEASED_NAME}}*\n• ઉંમર: {{AGE}} વર્ષ\n• જન્મ તારીખ: {{DATE_OF_BIRTH}}\n\n{{RELATIONS}}\n\n*અંતિમ યાત્રા વિગત:*\n{{LAST_RITES}}\n\n*બેસણું:*\n{{BESNA}}\n\n{{NO_LAUKIK}}\n\n*સંપર્ક (શોક વ્યક્ત કરવા માટે):*\n{{CONDOLENCE_CONTACTS}}\n\n🙏 સ્વર્ગસ્થના આત્માને પરમ શાંતિ મળે તેવી પ્રાર્થના. 🙏`
     }
   ],
   relations: [
