@@ -420,20 +420,21 @@ function setupSpreadsheet() {
   // 3. Setup RelationMaster Sheet
   var relationSheet = ss.getSheetByName("RelationMaster") || ss.insertSheet("RelationMaster");
   relationSheet.clear();
-  var relationHeaders = ["RelationKey", "English", "Gujarati", "GUJlish", "Hindi", "Hinglish", "MaleLabel", "FemaleLabel", "DefaultOrder", "DisplayStyle"];
+  var relationHeaders = ["RelationKey", "English", "ChipLabel", "Gujarati", "GUJlish", "Hindi", "Hinglish", "MaleLabel", "FemaleLabel", "DefaultOrder", "DisplayStyle"];
   relationSheet.appendRow(relationHeaders);
   var relationData = [
-    ["SPOUSE", "Spouse", "જીવનસાથી", "Jivansathi", "जीवनसाथी", "Jeevansathi", "Wife", "Husband", 1, "INLINE"],
-    ["SON", "Son", "પુત્ર", "Putra", "पुत्र", "Beta", "Father of", "Mother of", 2, "MULTILINE"],
-    ["DAUGHTER", "Daughter", "પુત્રી", "Putri", "पुत्री", "Beti", "Father of", "Mother of", 3, "MULTILINE"],
-    ["DAUGHTER_IN_LAW", "Daughter-in-Law", "પુત્રવધૂ", "Putravadhu", "पुत्रवधू", "Bahu", "Father-in-Law of", "Mother-in-Law of", 4, "INLINE"],
-    ["SON_IN_LAW", "Son-in-Law", "જમાઈ", "Jamai", "दामाद", "Damad", "Father-in-Law of", "Mother-in-Law of", 5, "INLINE"],
-    ["GRANDCHILDREN", "Grandchildren", "પૌત્ર / પૌત્રી", "Pautra / Pautri", "पोता / पोती", "Pota / Poti", "Grandfather of", "Grandmother of", 6, "BULLETS"],
-    ["BROTHER", "Brother", "ભાઈ", "Bhai", "भाई", "Bhai", "Brother of", "Sister-in-Law of", 7, "INLINE"],
-    ["SISTER", "Sister", "બહેન", "Bahen", "बहन", "Behen", "Brother-in-Law of", "Sister of", 8, "INLINE"]
+    ["SPOUSE", "Spouse", "Spouse (જીવનસાથી)", "જીવનસાથી", "Jivansathi", "जीवनसाथी", "Jeevansathi", "H/o", "W/o", 1, "INLINE"],
+    ["PARENTS", "Parents", "Parents (પિતા-માતા)", "પિતા-માતા", "Pita-Mata", "माता-पिता", "Parents", "S/o", "D/o", 2, "INLINE"],
+    ["PARENTS_IN_LAW", "Parents-in-Law", "Parents-in-Law (સાસુ-સસરા)", "સાસુ-સસરા", "Sasu-Sasra", "सास-ससुर", "In-laws", "Sil/o", "Dil/o", 3, "INLINE"],
+    ["CHILDREN", "Children", "Children (પુત્ર/પુત્રી)", "પુત્ર/પુત્રી", "Putra/Putri", "बच्चे", "Children", "F/o", "M/o", 4, "MULTILINE"],
+    ["CHILDREN_IN_LAW", "Children-in-Law", "Children-in-Law (જમાઈ/પુત્રવધૂ)", "જમાઈ/પુત્રવધૂ", "Jamai/Putravadhu", "दामाद/बहू", "In-laws", "Fil/o", "Mil/o", 5, "INLINE"],
+    ["GRANDCHILDREN", "Grandchildren", "Grandchildren (પૌત્ર/પૌત્રી)", "પૌત્ર/પૌત્રી", "Pautra/Pautri", "पोते/पोतियां", "Grandchildren", "G/f", "G/m", 6, "BULLETS"],
+    ["SIBLINGS", "Siblings", "Siblings (ભાઈ/બહેન)", "ભાઈ/બહેન", "Bhai/Bahen", "भाई-बहन", "Siblings", "B/o", "S/o", 7, "INLINE"],
+    ["SISTER_IN_LAW", "Sister-in-Law", "Sister-in-Law (ભાભી/સાળી)", "ભાભી/સાળી", "Bhabhi/Sali", "भाभी/साली", "Sister-in-Law", "Sil/o", "Sil/o", 8, "INLINE"],
+    ["BROTHER_IN_LAW", "Brother-in-Law", "Brother-in-Law (બનેવી/સાળો)", "બનેવી/સાળો", "Banevi/Salo", "जीजा/साला", "Brother-in-Law", "Bil/o", "Bil/o", 9, "INLINE"]
   ];
   relationSheet.getRange(2, 1, relationData.length, relationHeaders.length).setValues(relationData);
-  relationSheet.getRange("A1:J1").setFontWeight("bold").setBackground("#d9ead3");
+  relationSheet.getRange("A1:K1").setFontWeight("bold").setBackground("#d9ead3");
   relationSheet.autoResizeColumns(1, relationHeaders.length);
   
   // 4. Setup CommunityMaster Sheet
